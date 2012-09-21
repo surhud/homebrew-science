@@ -6,6 +6,8 @@ class AstrometryNet < Formula
   version '21172'
   sha1 '3a214c5266f152ac6a38b940a1330fa6c8669fe4'
 
+  head 'http://astrometry.net/svn/trunk/src/astrometry', :using => :svn
+
   depends_on 'wget'
   depends_on 'swig'
   depends_on 'pkg-config'
@@ -13,17 +15,23 @@ class AstrometryNet < Formula
   depends_on 'cairo'
   depends_on 'jpeg'
   depends_on 'libpng'
+
+  # from pip
+  depends_on 'pyfits' => :python
+
+  # needs "brew tap camphogg/science"
   depends_on 'wcslib'
 
   def install
     # ENV.j1  # if your formula's build system can't parallelize
-    system "./configure", "--disable-debug", "--disable-dependency-tracking",
-                          "--prefix=#{prefix}"
-    # system "cmake", ".", *std_cmake_args
+
+    ENV['INSTALL_DIR'] = "#{prefix}"
+    ENV['NETPBM_INC'] = "#{HOMEBREW_PREFIX}/include/netpbm"
+
     system "make"
     system "make extra"
     system "make py"
-    system "make install INSTALL_DIR=#{prefix}"
+    system "make install"
   end
 
   def test
