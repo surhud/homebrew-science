@@ -3,14 +3,13 @@ require 'formula'
 class AstrometryNet < Formula
   homepage 'http://astrometry.net'
   url 'http://astrometry.net/downloads/astrometry.net-21399.tar.gz'
-  version '21399'
   sha1 '73b335bcbbe55a354f66dac73dab86f3ed8189bd'
 
   head 'http://astrometry.net/svn/trunk/src/astrometry', :using => :svn
 
   depends_on 'wget'
-  depends_on 'swig'
-  depends_on 'pkg-config'
+  depends_on 'swig' => :build
+  depends_on 'pkg-config' => :build
   depends_on 'netpbm'
   depends_on 'cairo'
   depends_on 'jpeg'
