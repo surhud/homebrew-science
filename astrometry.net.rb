@@ -2,9 +2,9 @@ require 'formula'
 
 class AstrometryNet < Formula
   homepage 'http://astrometry.net'
-  url 'http://astrometry.net/downloads/astrometry.net-21172.tar.gz'
-  version '21172'
-  sha1 '3a214c5266f152ac6a38b940a1330fa6c8669fe4'
+  url 'http://astrometry.net/downloads/astrometry.net-21399.tar.gz'
+  version '21399'
+  sha1 '73b335bcbbe55a354f66dac73dab86f3ed8189bd'
 
   head 'http://astrometry.net/svn/trunk/src/astrometry', :using => :svn
 
@@ -20,13 +20,13 @@ class AstrometryNet < Formula
   depends_on 'pyfits' => :python
 
   # needs "brew tap camphogg/science"
+  # or soon maybe "brew tap homebrew/science"
   depends_on 'wcslib'
 
   def install
-    # ENV.j1  # if your formula's build system can't parallelize
-
     ENV['INSTALL_DIR'] = "#{prefix}"
-    ENV['NETPBM_INC'] = "#{HOMEBREW_PREFIX}/include/netpbm"
+    ENV['NETPBM_INC'] = "-I#{HOMEBREW_PREFIX}/include/netpbm"
+    ENV['NETPBM_LIB'] = "-L#{HOMEBREW_PREFIX}/lib -lnetpbm"
 
     system "make"
     system "make extra"
