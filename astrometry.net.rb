@@ -22,14 +22,21 @@ class AstrometryNet < Formula
   # or soon maybe "brew tap homebrew/science"
   depends_on 'wcslib'
 
+  option 'without-extras', "Don't try to build plotting code (actually it will still try, but homebrew won't halt the install if it fails)"
+  option 'without-py', "Don't try to build python code"
+
   def install
     ENV['INSTALL_DIR'] = "#{prefix}"
     ENV['NETPBM_INC'] = "-I#{HOMEBREW_PREFIX}/include/netpbm"
     ENV['NETPBM_LIB'] = "-L#{HOMEBREW_PREFIX}/lib -lnetpbm"
 
     system "make"
-    system "make extra"
-    system "make py"
+    if not build.include? 'without-extras'
+      system "make extra"
+    end
+    if not build.include? 'without-py'
+      system "make py"
+    end
     system "make install"
   end
 
