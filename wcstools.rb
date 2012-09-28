@@ -22,8 +22,13 @@ class Wcstools < Formula
     # Don't install the libwcs & libned includes directly in include/
     # because the "fitsfile.h" (and maybe others) conflict with
     # cfitsio.
-    bin.install Dir['bin/*']
-    lib.install 'libwcs/libwcs.a', 'libned/libned.a'
+    #d = Dir['bin/*'].find_all{|item| item[-5,5] != '.dSYM'}
+    #print d
+    #print
+    #bin.install d
+    bin.install Dir['bin/*'].find_all{|item| item[-5,5] != '.dSYM'}
+    (lib + 'libwcs').install 'libwcs/libwcs.a'
+    (lib + 'libned').install 'libned/libned.a'
     (include + 'libwcs').install Dir['libwcs/*.h']
     (include + 'libned').install Dir['libned/*.h']
     man1.install Dir['man/man1/*']
