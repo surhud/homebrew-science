@@ -30,6 +30,9 @@ class AstrometryNet < Formula
     ENV['NETPBM_INC'] = "-I#{HOMEBREW_PREFIX}/include/netpbm"
     ENV['NETPBM_LIB'] = "-L#{HOMEBREW_PREFIX}/lib -lnetpbm"
 
+    mkdir_p "#{HOMEBREW_PREFIX}/lib/python"
+    # Argh, should make Astrometry.net install python to lib/python
+
     system "make"
     if not build.include? 'without-extras'
       system "make extra"
