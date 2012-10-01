@@ -2,7 +2,7 @@ require 'formula'
 
 class Atlas < Formula
   homepage 'http://math-atlas.sourceforge.net/'
-  url 'http://iweb.dl.sourceforge.net/project/math-atlas/Stable/3.10.0/atlas3.10.0.tar.bz2'
+  url 'http://dl.sourceforge.net/project/math-atlas/Stable/3.10.0/atlas3.10.0.tar.bz2'
   sha1 '085e8219d01626485079b785309d4d6502ab1ac0'
 
   def install
