@@ -2,8 +2,8 @@ require 'formula'
 
 class AstrometryNet < Formula
   homepage 'http://astrometry.net'
-  url 'http://astrometry.net/downloads/astrometry.net-21399.tar.gz'
-  sha1 '73b335bcbbe55a354f66dac73dab86f3ed8189bd'
+  url 'http://astrometry.net/downloads/astrometry.net-0.40.tar.gz'
+  sha1 '4f66b3c534f393b9613e47f6260f4996fd83f73d'
 
   head 'http://astrometry.net/svn/trunk/src/astrometry', :using => :svn
 
@@ -18,8 +18,6 @@ class AstrometryNet < Formula
   # from pip
   depends_on 'pyfits' => :python
 
-  # needs "brew tap camphogg/science"
-  # or soon maybe "brew tap homebrew/science"
   depends_on 'wcslib'
 
   option 'without-extras', "Don't try to build plotting code (actually it will still try, but homebrew won't halt the install if it fails)"
