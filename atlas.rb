@@ -21,11 +21,8 @@ class Atlas < Formula
         "--prefix=#{prefix}"
 
     system "make build"
-    system "make install"
-  end
-
-  def test
     system "make check"
+    system "make install"
   end
 end
 
