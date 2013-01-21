@@ -1,11 +1,11 @@
 require 'formula'
 
 def grass?
-  ARGV.include? "--with-grass"
+  build.include? "with-grass"
 end
 
 def postgis?
-  ARGV.include? "--with-postgis"
+  build.include? "with-postgis"
 end
 
 def py_version
@@ -35,17 +35,13 @@ class Qgis < Formula
 
   head 'https://github.com/qgis/Quantum-GIS.git', :branch => 'master'
 
-  def options
-    [
-      ['--with-grass', 'Build support for GRASS GIS.'],
-      ['--with-postgis', 'Build support for PostGIS databases.']
-    ]
-  end
+  option 'with-postgis', 'Build support for PostGIS databases.'
+  option 'with-grass', 'Build support for GRASS GIS'
 
   depends_on 'cmake' => :build
 
   depends_on 'gsl'
-  depends_on 'PyQt'
+  depends_on 'pyqt'
   depends_on 'gdal'
   depends_on 'spatialindex'
 
@@ -55,6 +51,19 @@ class Qgis < Formula
   depends_on 'postgis' if postgis?
 
   def install
+    # Double-check that pyqt is importable. Often, QGIS triggers pyqt
+    # installation and users miss the caveats.
+    unless quiet_system 'python', '-c', 'from PyQt4 import QtCore'
+      onoe <<-EOS.undent
+        Python could not import the PyQt4 module. This will cause the QGIS build to fail.
+        The most common reason for this failure is that the PYTHONPATH needs to be adjusted.
+        The pyqt caveats explain this adjustment and may be reviewed using:
+
+            brew info pyqt
+        EOS
+      exit 1
+    end
+
     internal_qwt = Pathname.new(Dir.getwd) + 'qwt52'
     internal_bison = Pathname.new(Dir.getwd) + 'bison'
 
