@@ -16,5 +16,8 @@ class Sextractor < Formula
 
     system "make install"
   end
+  def test
+    system "#{bin}/sex", "--version"
+  end
 end
 
