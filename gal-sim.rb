@@ -2,8 +2,8 @@ require 'formula'
 
 class GalSim < Formula
   homepage 'https://github.com/GalSim-developers/GalSim'
-  url 'https://github.com/GalSim-developers/GalSim/zipball/v0.3'
-  sha1 '5215bb6fdb07fe0bafb1c3036006c1ac29900351'
+  url 'https://github.com/GalSim-developers/GalSim/zipball/v0.4'
+  sha1 '51b6485dea40edfe967a8e904947a86515b10c1b'
   head 'https://github.com/GalSim-developers/GalSim.git'
 
   depends_on 'scons' => :build
