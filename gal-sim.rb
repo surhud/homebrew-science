@@ -11,6 +11,10 @@ class GalSim < Formula
   depends_on 'boost'
   depends_on 'tmv-cpp'
 
+  # pyfits should come from pip
+  depends_on 'pyfits' => :python
+  depends_on 'numpy' => :python
+
   def install
     # This ought to be part of a standard homebrew install;
     # required so that homebrew creates symlinks
