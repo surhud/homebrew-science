@@ -21,6 +21,9 @@ class AstrometryNet < Formula
   depends_on 'pyfits' => :python
   depends_on 'numpy' => :python
 
+  # this formula includes python bindings
+  depends_on :python => :recommended
+
   option 'without-extras', "Don't try to build plotting code (actually it will still try, but homebrew won't halt the install if it fails)"
   option 'without-py', "Don't try to build python code"
 
@@ -39,7 +42,14 @@ class AstrometryNet < Formula
     if not build.include? 'without-py'
       system "make py"
     end
+
     system "make install"
+
+    if build.with? 'python':
+      system "find #{prefix} > /tmp/1"
+      system "mkdir -p #{prefix}/lib/python && mv #{prefix}/python #{prefix}/lib/"
+    end
+
   end
 
   def test
