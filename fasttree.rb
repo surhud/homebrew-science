@@ -3,7 +3,6 @@ require 'formula'
 class Fasttree < Formula
   homepage 'http://meta.microbesonline.org/fasttree/'
   url 'http://www.microbesonline.org/fasttree/FastTree-2.1.7.c'
-  version '2.1.7'
   sha1 'd9381924829e7d19d56154ebbde0e44044b4b7ab'
 
   fails_with :clang do
@@ -13,7 +12,7 @@ class Fasttree < Formula
   end
 
   def install
-    system "#{ENV.cc} -lm -O3 -finline-functions -funroll-loops -Wall -o FastTree FastTree-#{@version}.c"
+    system "#{ENV.cc} -O3 -finline-functions -funroll-loops -Wall -o FastTree FastTree-#{version}.c -lm"
     bin.install "FastTree"
   end
 

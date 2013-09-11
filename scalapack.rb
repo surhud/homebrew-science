@@ -7,14 +7,13 @@ class Scalapack < Formula
 
   option 'test', 'Verify the build with make test'
 
-  depends_on MPIDependency.new(:cc, :f90)
+  depends_on :mpi => [:cc, :f90]
   depends_on 'cmake' => :build
   depends_on 'openblas' => :recommended
   depends_on 'dotwrp' if build.without? 'openblas'
+  depends_on :fortran
 
   def install
-    ENV.fortran
-
     if build.with? 'openblas'
       args = std_cmake_args + [
         '-DBLAS_LIBRARIES=-lopenblas',

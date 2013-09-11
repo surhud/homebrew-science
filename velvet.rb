@@ -2,8 +2,8 @@ require 'formula'
 
 class Velvet < Formula
   homepage 'http://www.ebi.ac.uk/~zerbino/velvet/'
-  url 'http://www.ebi.ac.uk/~zerbino/velvet/velvet_1.2.08.tgz'
-  sha1 '81432982c6a0a7fe8e5dd46fd5e88193dbd832aa'
+  url 'http://www.ebi.ac.uk/~zerbino/velvet/velvet_1.2.09.tgz'
+  sha1 'e40d59806599ac06e4b13408205b8978427177d0'
 
   head 'https://github.com/dzerbino/velvet.git'
 
@@ -20,12 +20,18 @@ class Velvet < Formula
 
     system "make", "velveth", "velvetg", *args
     bin.install 'velveth', 'velvetg'
+
+    # install additional contributed scripts
+    (share/'velvet/contrib').install Dir['contrib/shuffleSequences_fasta/shuffleSequences_*']
   end
 
   def caveats
     <<-EOS.undent
       If you want to build with a different kmer length, you can set
       MAXKMERLENGTH=X to a value (X) *before* you brew this formula.
+
+      Some additional user contributed scripts are installed here:
+      #{share}/velvet/contrib
     EOS
   end
 

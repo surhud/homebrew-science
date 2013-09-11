@@ -17,20 +17,19 @@ class Shogun < Formula
   depends_on 'lzo' => :recommended
   depends_on 'snappy' => :recommended
   depends_on 'xz' => :recommended  # provides lzma
-  depends_on 'swig' => :recommended # needef for dynamic python bindings
+  depends_on 'swig' => [:recommended, :build] # needef for dynamic python bindings
   depends_on 'numpy' => :python # You may want `brew tap samueljohn/python && brew install numpy`
   depends_on 'matplotlib' => :python # You may want `brew tap samueljohn/python && brew install matplotlib`
   depends_on 'r' => :optional
   depends_on 'lua' => :optional
   depends_on 'octave' => :optional
-  
+
   # Todo: support additional deps: arpack, mosek, superlu, cplex, lpsolve
   #       Help us by hacking on this and open a pull request! Thanks.
-
   def install
     pydir = "#{which_python}/site-packages"
 
-    args = [ "--prefix=#{prefix}", 
+    args = [ "--prefix=#{prefix}",
              "--pydir=#{pydir}",
              "--enable-hmm-parallel" ]
     args << "--disable-svm-light" if build.include? 'disable-svm-light'
@@ -41,7 +40,7 @@ class Shogun < Formula
 
     unless MacOS::CLT.installed?
       # fix: "Checking for Mac OS vector library ... no"
-      ["src/configure", "src/shogun/mathematics/lapack.h"].each do |f| 
+      ["src/configure", "src/shogun/mathematics/lapack.h"].each do |f|
         inreplace f, "#include </System/Library/Frameworks/vecLib.framework",
                      "#include <#{MacOS.sdk_path}/System/Library/Frameworks/vecLib.framework"
       end
@@ -59,7 +58,7 @@ class Shogun < Formula
   end
 
   test do
-    Pathname.new('test.sg').write <<-EOF.undent
+    (testpath/'test.sg').write <<-EOF.undent
       new_classifier LIBSVM
       save_classifier test.model
       exit
@@ -67,9 +66,9 @@ class Shogun < Formula
     system bin/"shogun", "test.sg"
     raise "failed" unless File.exist?("test.model")
 
-    if build.with? 'python'
-      system "python", share/"examples/documented/python_modular/graphical/svm.py"
-    end
+    # if build.with? 'python'
+    #   system "python", share/"examples/documented/python_modular/graphical/svm.py"
+    # end
   end
 
   def which_python
