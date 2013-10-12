@@ -2,8 +2,8 @@ require 'formula'
 
 class AstrometryNet < Formula
   homepage 'http://astrometry.net'
-  url 'http://astrometry.net/downloads/astrometry.net-0.43.tar.gz'
-  sha1 'eef4cfe08b1366e9ee319cc9535a5657dec906d3'
+  url 'http://astrometry.net/downloads/astrometry.net-0.44.tar.gz'
+  sha1 'a991be907e9ee060a23115e24cbadc93b2f62bc2'
 
   head 'http://astrometry.net/svn/trunk/src/astrometry', :using => :svn
 
@@ -32,9 +32,6 @@ class AstrometryNet < Formula
     ENV['NETPBM_INC'] = "-I#{HOMEBREW_PREFIX}/include/netpbm"
     ENV['NETPBM_LIB'] = "-L#{HOMEBREW_PREFIX}/lib -lnetpbm"
 
-    mkdir_p "#{HOMEBREW_PREFIX}/lib/python"
-    # Argh, should make Astrometry.net install python to lib/python
-
     system "make"
     if not build.include? 'without-extras'
       system "make extra"
@@ -44,11 +41,6 @@ class AstrometryNet < Formula
     end
 
     system "make install"
-
-    if build.with? 'python':
-      system "find #{prefix} > /tmp/1"
-      system "mkdir -p #{prefix}/lib/python && mv #{prefix}/python #{prefix}/lib/"
-    end
 
   end
 
