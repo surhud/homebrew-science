@@ -3,7 +3,7 @@ require 'formula'
 class AstrometryNet < Formula
   homepage 'http://astrometry.net'
   url 'http://astrometry.net/downloads/astrometry.net-0.44.tar.gz'
-  sha1 'a991be907e9ee060a23115e24cbadc93b2f62bc2'
+  sha1 '0424cb17de9f19459af4d6589ec83f4a7b9b6b38'
 
   head 'http://astrometry.net/svn/trunk/src/astrometry', :using => :svn
 
