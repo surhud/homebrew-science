@@ -45,6 +45,18 @@ class Octave < Formula
     depends_on 'fltk'
   end
 
+  # The fix for std::unordered_map requires regenerating
+  # configure. Remove once the fix is in next release.
+  depends_on :autoconf => :build
+  depends_on :automake => :build
+  depends_on :libtool => :build
+
+  def patches
+    # Pull upstream patch to fix configure script on std::unordered_map
+    # detection.
+    'http://hg.savannah.gnu.org/hgweb/octave/raw-rev/26b2983a8acd'
+  end
+
   def blas_flags
     flags = []
     flags << "-ldotwrp" if MacOS.version == :snow_leopard and MacOS.prefer_64_bit?
@@ -68,6 +80,10 @@ class Octave < Formula
     args << "--without-framework-carbon" if MacOS.version >= :lion
     # avoid spurious 'invalid assignment to cs-list' erorrs on 32 bit installs:
     args << 'CXXFLAGS=-O0' unless MacOS.prefer_64_bit?
+
+    # The fix for std::unordered_map requires regenerating
+    # configure. Remove once the fix is in next release.
+    system "autoreconf", "-ivf"
 
     system "./configure", *args
     system "make all"
