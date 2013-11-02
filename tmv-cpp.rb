@@ -8,7 +8,7 @@ class TmvCpp < Formula
   depends_on 'scons' => :build
 
   def install
-    # ENV.j1  # if your formula's build system can't parallelize
+    # xcode 5.0.1's clang doesn't support OpenMP
     system "scons WITH_OPENMP=false"
     system "scons install PREFIX=#{prefix}"
   end
