@@ -9,7 +9,7 @@ class TmvCpp < Formula
 
   def install
     # ENV.j1  # if your formula's build system can't parallelize
-    system "scons"
+    system "scons WITH_OPENMP=false"
     system "scons install PREFIX=#{prefix}"
   end
 end
