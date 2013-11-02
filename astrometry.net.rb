@@ -14,8 +14,8 @@ class AstrometryNet < Formula
   depends_on 'cairo'
   depends_on 'jpeg'
   depends_on 'libpng'
-
   depends_on 'wcslib'
+  depends_on 'gsl'
 
   # from pip
   depends_on 'pyfits' => :python
@@ -31,6 +31,7 @@ class AstrometryNet < Formula
     ENV['INSTALL_DIR'] = "#{prefix}"
     ENV['NETPBM_INC'] = "-I#{HOMEBREW_PREFIX}/include/netpbm"
     ENV['NETPBM_LIB'] = "-L#{HOMEBREW_PREFIX}/lib -lnetpbm"
+    ENV['SYSTEM_GSL'] = "yes"
 
     system "make"
     if not build.include? 'without-extras'
