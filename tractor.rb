@@ -18,7 +18,7 @@ class Tractor < Formula
 
   def install
     system "make"
-    system "python", "setup.py", "--prefix=#{prefix}"
+    system "python", "setup.py", "install", "--prefix=#{prefix}"
   end
 
   def test
