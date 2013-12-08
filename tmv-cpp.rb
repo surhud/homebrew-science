@@ -8,8 +8,12 @@ class TmvCpp < Formula
   depends_on 'scons' => :build
 
   def install
-    # xcode 5.0.1's clang doesn't support OpenMP
-    system "scons WITH_OPENMP=false"
+    cmd = "scons"
+    if ENV.compiler == :clang
+      # xcode 5.0.1's clang doesn't support OpenMP
+      cmd << " WITH_OPENMP=false"
+    end
+    system cmd
     system "scons install PREFIX=#{prefix}"
   end
 end
