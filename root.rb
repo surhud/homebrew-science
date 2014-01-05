@@ -2,20 +2,21 @@ require 'formula'
 
 class Root < Formula
   homepage 'http://root.cern.ch'
-  url 'ftp://root.cern.ch/root/root_v5.34.10.source.tar.gz'
-  version '5.34.10'
-  sha1 '2dc0af12e531c4f2314a9fbd7dd4f5fee924d71c'
+  url 'ftp://root.cern.ch/root/root_v5.34.14.source.tar.gz'
+  version '5.34.14'
+  sha1 '36620ce3fe731702113b9a531a902b7511a7ee88'
+  head 'https://github.com/root-mirror/root.git', :branch => 'v5-34-00-patches'
 
-  bottle do
-    sha1 '7f6abbf1bf9373764d8564e90552e8a1a03ed52d' => :mountain_lion
-    sha1 '6fb8a9c43c8ab9908571677634319c18d15ff8ea' => :lion
-    sha1 'a4f560c56436285635e03fdcd693d7e69320bbe9' => :snow_leopard
-  end
-
+  option 'with-cocoa', "Use Cocoa for graphics backend instead of X11 (useful on Retina displays)"
   depends_on 'xrootd' => :recommended
   depends_on 'fftw' => :optional
   depends_on :x11
   depends_on :python
+
+  def patches
+    # http://trac.macports.org/ticket/36777
+    { :p0 => "http://trac.macports.org/raw-attachment/ticket/36777/patch-builtin-afterimage-disabletiff.diff" } if build.with? 'cocoa'
+  end
 
   def install
     # brew audit doesn't like non-executables in bin
@@ -28,6 +29,7 @@ class Root < Formula
 
     # Determine architecture
     arch = MacOS.prefer_64_bit? ? 'macosx64' : 'macosx'
+    cocoa_flag = (build.with? 'cocoa') ? "--enable-cocoa" : "--disable-cocoa"
 
     # N.B. that it is absolutely essential to specify
     # the --etcdir flag to the configure script.  This is
@@ -39,6 +41,7 @@ class Root < Formula
            "#{arch}",
            "--all",
            "--enable-builtin-glew",
+           "#{cocoa_flag}",
            "--prefix=#{prefix}",
            "--etcdir=#{prefix}/etc/root",
            "--mandir=#{man}"

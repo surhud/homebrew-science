@@ -2,11 +2,11 @@ require 'formula'
 
 class Lammps < Formula
   homepage 'http://lammps.sandia.gov'
-  url 'http://lammps.sandia.gov/tars/lammps-14May13.tar.gz'
-  sha1 '5e522e9e3d4a4cbbe80c01c36002489777fb65d8'
+  url 'http://lammps.sandia.gov/tars/lammps-17Dec13.tar.gz'
+  sha1 '80dc6889516c9743c3103f3d5e2e7d2540bab198'
   # lammps releases are named after their release date. We transform it to
   # YYYY.MM.DD (year.month.day) so that we get a comparable version numbering (for brew outdated)
-  version '2013.05.14'
+  version '2013.12.17'
   head 'http://git.icms.temple.edu/lammps-ro.git'
 
   # user-submitted packages not considered "standard"
@@ -39,9 +39,6 @@ class Lammps < Formula
   USER_PACKAGES.each do |package|
     option "enable-#{package}", "Build lammps with the '#{package}' package"
   end
-
-  # additional options
-  option "with-mpi", "Build lammps with MPI support"
 
   depends_on 'fftw'
   depends_on 'jpeg'
@@ -92,7 +89,7 @@ class Lammps < Formula
     ENV.append "CFLAGS","-O"
     ENV.append "LDFLAGS","-O"
 
-    if build.include? "with-mpi"
+    if build.with? :mpi
       # Simplify by relying on the mpi compilers
       ENV["FC"]  = ENV["MPIFC"]
       ENV["CXX"] = ENV["MPICXX"]
@@ -118,7 +115,7 @@ class Lammps < Formula
         # We will stick with "make mac" type and forget about
         # "make mac_mpi" because it has some unnecessary
         # settings. We get a nice clean slate with "mac"
-        if build.include? "with-mpi"
+        if build.with? :mpi
           #-DOMPI_SKIP_MPICXX is to speed up c++ compilation
           s.change_make_var! "MPI_INC"  , "-DOMPI_SKIP_MPICXX"
           s.change_make_var! "MPI_PATH" , ""
@@ -155,7 +152,7 @@ class Lammps < Formula
         system "make", "yes-" + pkg if build.include? "enable-" + pkg
       end
 
-      unless build.include? "with-mpi"
+      unless build.with? :mpi
         # build fake mpi library
         cd "STUBS" do
           system "make"

@@ -6,6 +6,8 @@ class CeresSolver < Formula
   sha1 '8a67268d995b8351bd5ee5acf1eebff910028e7e'
   head 'https://ceres-solver.googlesource.com/ceres-solver.git'
 
+  option 'without-tests', 'Do not build and run the tests (not recommended).'
+
   depends_on 'cmake' => :build
   depends_on 'glog'
   depends_on 'gflags'
@@ -13,8 +15,10 @@ class CeresSolver < Formula
   depends_on 'suite-sparse' => :recommended
 
   def install
-    system "cmake", ".", *std_cmake_args
+    cmake_args = std_cmake_args + ['-DBUILD_SHARED_LIBS=ON']
+    system "cmake", ".", *cmake_args
+    system "make"
+    system "make test" if build.with? 'tests'
     system "make", "install"
   end
-
 end
