@@ -2,11 +2,12 @@ require 'formula'
 
 class Lammps < Formula
   homepage 'http://lammps.sandia.gov'
-  url 'http://lammps.sandia.gov/tars/lammps-17Dec13.tar.gz'
-  sha1 '80dc6889516c9743c3103f3d5e2e7d2540bab198'
+  url 'http://lammps.sandia.gov/tars/lammps-12Feb14.tar.gz'
+  sha1 '2572cce8343862c32c6e4079b91a26637ae3c6b7'
   # lammps releases are named after their release date. We transform it to
   # YYYY.MM.DD (year.month.day) so that we get a comparable version numbering (for brew outdated)
-  version '2013.12.17'
+  version '2014.02.12'
+
   head 'http://git.icms.temple.edu/lammps-ro.git'
 
   # user-submitted packages not considered "standard"
@@ -43,7 +44,7 @@ class Lammps < Formula
   depends_on 'fftw'
   depends_on 'jpeg'
   depends_on 'voro++'
-  depends_on :mpi => [:cxx, :f90, :optional]
+  depends_on :mpi => [:cxx, :f90, :recommended] # dummy MPI library provided in src/STUBS
   depends_on :fortran
 
   def build_lib(comp, lmp_lib, opts={})
@@ -106,7 +107,7 @@ class Lammps < Formula
     end
 
     # Assuming gfortran library
-    ENV.append 'LDFLAGS', "-L#{Formula.factory('gfortran').opt_prefix}/gfortran/lib -lgfortran"
+    ENV.append 'LDFLAGS', "-L#{Formula["gfortran"].opt_prefix}/gfortran/lib -lgfortran"
 
     # build the lammps program and library
     cd "src" do
@@ -125,12 +126,12 @@ class Lammps < Formula
         s.change_make_var! "LINK" , ENV["CXX"]
 
         # installing with FFTW and JPEG
-        s.change_make_var! "FFT_INC"  , "-DFFT_FFTW3 -I#{Formula.factory('fftw').opt_prefix}/include"
-        s.change_make_var! "FFT_PATH" , "-L#{Formula.factory('fftw').opt_prefix}/lib"
+        s.change_make_var! "FFT_INC"  , "-DFFT_FFTW3 -I#{Formula["fftw"].opt_prefix}/include"
+        s.change_make_var! "FFT_PATH" , "-L#{Formula["fftw"].opt_prefix}/lib"
         s.change_make_var! "FFT_LIB"  , "-lfftw3"
 
-        s.change_make_var! "JPG_INC"  , "-DLAMMPS_JPEG -I#{Formula.factory('jpeg').opt_prefix}/include"
-        s.change_make_var! "JPG_PATH" , "-L#{Formula.factory('jpeg').opt_prefix}/lib"
+        s.change_make_var! "JPG_INC"  , "-DLAMMPS_JPEG -I#{Formula["jpeg"].opt_prefix}/include"
+        s.change_make_var! "JPG_PATH" , "-L#{Formula["jpeg"].opt_prefix}/lib"
         s.change_make_var! "JPG_LIB"  , "-ljpeg"
 
         s.change_make_var! "CCFLAGS" , ENV["CFLAGS"]
@@ -152,7 +153,7 @@ class Lammps < Formula
         system "make", "yes-" + pkg if build.include? "enable-" + pkg
       end
 
-      unless build.with? :mpi
+      if build.without? :mpi
         # build fake mpi library
         cd "STUBS" do
           system "make"

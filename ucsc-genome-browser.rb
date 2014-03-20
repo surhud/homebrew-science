@@ -2,8 +2,8 @@ require 'formula'
 
 class UcscGenomeBrowser < Formula
   homepage 'http://genome.ucsc.edu'
-  url 'http://hgdownload.cse.ucsc.edu/admin/jksrc.v292.zip'
-  sha1 'f6817eeb371cc42b360038f8467dbfb607f04bf0'
+  url 'http://hgdownload.cse.ucsc.edu/admin/jksrc.v296.zip'
+  sha1 '58717c403da4efaa3a83c49d31276bf1ac9898e3'
   head 'git://genome-source.cse.ucsc.edu/kent.git'
 
   keg_only <<-EOF.undent
@@ -30,7 +30,7 @@ class UcscGenomeBrowser < Formula
       system 'make',
         "MACHTYPE=#{machtype}",
         "BINDIR=#{bin}",
-        "SCRIPTS=#{bin}/scripts",
+        "SCRIPTS=#{prefix}/scripts",
         "CGI_BIN=#{prefix}/cgi-bin",
         "DOCUMENTROOT=#{prefix}/htdocs",
         "PNGLIB=-L#{HOMEBREW_PREFIX}/lib -lpng",

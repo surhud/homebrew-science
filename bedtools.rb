@@ -2,14 +2,14 @@ require 'formula'
 
 class Bedtools < Formula
   homepage 'https://github.com/arq5x/bedtools2'
-  url 'https://github.com/arq5x/bedtools2/archive/v2.18.1.tar.gz'
-  sha1 'ce7c1ca7ca3717f77e4260eee83e22dab9dfdd87'
+  url 'https://github.com/arq5x/bedtools2/releases/download/v2.19.1/bedtools-2.19.1.tar.gz'
+  sha1 '7a9027d7992ae399cde8fb7dab520b332605740c'
   head 'https://github.com/arq5x/bedtools2.git'
 
   def install
     system 'make'
     prefix.install 'bin'
-    doc.install %w[README.rst RELEASE_HISTORY]
+    doc.install %w[README.md RELEASE_HISTORY]
   end
 
   test do

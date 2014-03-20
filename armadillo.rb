@@ -2,11 +2,11 @@ require 'formula'
 
 class Armadillo < Formula
   homepage 'http://arma.sourceforge.net/'
-  url 'http://downloads.sourceforge.net/project/arma/armadillo-3.930.3.tar.gz'
-  sha1 '5c06ee7fbc8c0add900883ecaf724ba4c8908b13'
+  url 'https://downloads.sourceforge.net/project/arma/armadillo-4.100.2.tar.gz'
+  sha1 '4cf8cb82c8197dda08f019455d006cbc2b093fcf'
 
   depends_on 'cmake' => :build
-  depends_on 'boost'
+  depends_on 'arpack'
 
   option :cxx11
 

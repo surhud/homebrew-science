@@ -2,7 +2,7 @@ require 'formula'
 
 class EnblendEnfuse < Formula
   homepage 'http://enblend.sourceforge.net/'
-  url 'http://downloads.sourceforge.net/project/enblend/enblend-enfuse/enblend-enfuse-4.1/enblend-enfuse-4.1.1.tar.gz'
+  url 'https://downloads.sourceforge.net/project/enblend/enblend-enfuse/enblend-enfuse-4.1/enblend-enfuse-4.1.1.tar.gz'
   sha1 'bc18fca3033b031d603b22678b2e680a0ffae1b6'
 
   option 'disable-gpu', 'Build with GPU support'
@@ -28,7 +28,7 @@ class EnblendEnfuse < Formula
              "--disable-dependency-tracking",
              "--prefix=#{prefix}" ]
 
-    args << "--without-x" unless build.with? 'x11'
+    args << "--without-x" if build.without? 'x11'
 
     if build.include? 'disable-gpu'
       enable_gpu = "no"

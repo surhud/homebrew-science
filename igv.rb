@@ -2,8 +2,8 @@ require 'formula'
 
 class Igv < Formula
   homepage 'http://www.broadinstitute.org/software/igv'
-  url 'http://www.broadinstitute.org/igv/projects/downloads/IGV_2.3.23.zip'
-  sha1 '7a0dadc578e85a3326a32f9035186d70162a042d'
+  url 'http://www.broadinstitute.org/igv/projects/downloads/IGV_2.3.31.zip'
+  sha1 '1195d73038d0103aac90fe00a9173bf9cb60ed92'
 
   def install
     inreplace 'igv.sh', /^prefix=.*/, 'prefix=' + libexec

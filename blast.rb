@@ -12,7 +12,7 @@ class Blast < Formula
   option 'without-check', 'Skip the self tests'
 
   fails_with :clang do
-    build 500
+    build 503
     cause "error: 'bits/c++config.h' file not found"
   end
 
@@ -23,7 +23,7 @@ class Blast < Formula
 
   def install
     args = ["--prefix=#{prefix}"]
-    args << "--with-dll" if build.include? 'with-dll'
+    args << "--with-dll" if build.with? "dll"
     # Boost is used only for unit tests.
     args << '--without-boost' if build.without? 'check'
 

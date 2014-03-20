@@ -3,13 +3,13 @@ require 'formula'
 class Trinity < Formula
   homepage 'http://trinityrnaseq.sourceforge.net'
   version 'r20131110'
-  url "http://downloads.sourceforge.net/trinityrnaseq/trinityrnaseq_#{version}.tar.gz"
+  url "https://downloads.sourceforge.net/trinityrnaseq/trinityrnaseq_#{version}.tar.gz"
   sha1 '3207147a1ece0d7f2b4b9dc5aa8e735b3d55cb1d'
 
   depends_on 'bowtie'
 
   fails_with :clang do
-    build 500
+    build 503
     cause <<-EOS.undent
       clang does not support OpenMP, and including omp.h fails
     EOS

@@ -15,7 +15,7 @@ class Openni < Formula
 
   depends_on :automake
   depends_on :libtool
-  depends_on 'libusb' => (build.universal?) ? ['universal'] : []
+  depends_on 'libusb'
   depends_on 'doxygen' => :build
 
   def patches
@@ -45,8 +45,22 @@ class Openni < Formula
     lib.install Dir['Lib/*']
     (include+'ni').install Dir['Include/*']
     (share+'java').install Dir['Jar/*']
-    (share+'samples').install Dir['Samples/*']
+    (share+'openni/samples').install Dir['Samples/*']
     doc.install 'Documentation'
+
+    # Create and install a pkg-config file
+    (lib/"pkg-config/libopenni.pc").write <<-EOS.undent
+      prefix=#{prefix}
+      exec_prefix=${prefix}
+      libdir=${exec_prefix}/lib
+      includedir=${prefix}/include/ni
+
+      Name: OpenNI
+      Description: A general purpose driver for all OpenNI cameras.
+      Version: #{version}
+      Cflags: -I${includedir}
+      Libs: -L${libdir} -lOpenNI -lOpenNI.jni -lnimCodecs -lnimMockNodes -lnimRecorder
+    EOS
   end
 
   def post_install
